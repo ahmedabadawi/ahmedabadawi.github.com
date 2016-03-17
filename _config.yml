@@ -7,7 +7,7 @@ description: > # this means to ignore newlines until "baseurl:"
   With 10+ years experience working in Software industry from Software Engineer
   to Technical Project Lead yet still passionate about code crafting in several
   programming languages Java, C#, C++, and JavaScript.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "http://blog.chainreaction-software.com" # the base hostname & protocol for your site
 twitter_username: ahmedabadawi
 github_username:  ahmedabadawi
