@@ -1,3 +1,16 @@
-markdown: redcarpet
-baseurl: /blog
-exclude: ['README.md']
+
+# Site settings
+title: Ahmed Badawi - ChainReaction Blog
+email: ahmedabadawi@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  I'm a Software Engineer, deep believer of the craft and the art of Software.
+  With 10+ years experience working in Software industry from Software Engineer
+  to Technical Project Lead yet still passionate about code crafting in several
+  programming languages Java, C#, C++, and JavaScript.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://blog.chainreaction-software.com" # the base hostname & protocol for your site
+twitter_username: ahmedabadawi
+github_username:  ahmedabadawi
+
+# Build settings
+markdown: kramdown
