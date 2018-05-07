@@ -18,3 +18,6 @@ highly scalable web applications. Strong written and verbal communications.
 General
 passion for technology.
 
+### Contact me
+[ahmedabadawi@gmail.com](mailto:ahmedabadawi@gmail.com)
+
