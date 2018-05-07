@@ -2,11 +2,11 @@
 # This file contains configuration flags to customize your site
 #
 
-# Name of your site (displayed in the header)
+# Name of your site
 name: Ahmed Badawi
 
-# Short bio or description (displayed in the header)
-description: >
+# Short bio or description
+description:
 	A business-value oriented, articulate and analytical Technical Software Architect and Software Development Engineer
 	with 15+ years of experience in designing, architecting, leading and developing software applications. Strong in solution
 	architecture and design, always seeking innovative ideas to maximize client value. Scrum Master certified with real-life
@@ -20,8 +20,8 @@ description: >
 	transitional architectures. Experienced in giving presentations and public-speaking. Participated in Azure Bootcamp in
 	Orange County with a talk on Startup Success with Cloud Technologies. Strong written and verbal communication.
 
-# URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://raw.githubusercontent.com/ahmedabadawi
+# URL of your avatar or profile pic
+avatar: https://avatars3.githubusercontent.com/u/1433946?s=320
 
 #
 # Flags below are optional
@@ -30,21 +30,20 @@ avatar: https://raw.githubusercontent.com/ahmedabadawi
 # Includes an icon in the footer for each username you enter
 footer-links:
   email: ahmedabadawi@gmail.com
-  facebook:https://www.facebook.com/aabadawi
+  facebook: https://www.facebook.com/aabadawi
   flickr: https://www.flickr.com/photos/ahmedabadawi/
   github: https://github.com/ahmedabadawi
   linkedin: https://www.linkedin.com/in/ahmedabadawi/
   twitter: https://twitter.com/ahmedabadawi
   stackoverflow: https://stackoverflow.com/users/story/5650786
 
-# Enter your Disqus shortname (not your username) to enable commenting on posts
-# You can find your shortname on the Settings page of your Disqus account
+# Enter your Disqus shortname
 disqus: disqus_ahmedabadawi
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics:
 
-# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
+# Your website URL
 # Used for Sitemap.xml and your RSS feed
 url: https://ahmedabadawi.github.io
 
