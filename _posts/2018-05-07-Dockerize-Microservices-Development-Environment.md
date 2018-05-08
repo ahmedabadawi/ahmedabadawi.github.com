@@ -7,7 +7,7 @@ categories: Docker, Microservices, Spring Boot, NGINX
 I have worked on several microservices-based applications on the cloud, and had to go through relatively slow CI process to get to see the changes and test them. Also, writing things from scratch is kind of my hobby. So, I thought I will create a small demo setup and will keep adding to it as a pet project.
 
 ## Demo Application Components
-The application is composed of two Spring Boot services providing the notifications and messages stored in a MongoDB database with frontend developed in Angular 5 and making use of NGINX to proxy calls to the corresponding service.
+The application is composed of __two Spring Boot services__ providing the notifications and messages stored in a __MongoDB database__ with frontend developed in __Angular 5__ and making use of __NGINX__ to proxy calls to the corresponding service.
 ![Demo Structure](/assets/docker-microservices-diagram.png)
 
 ### Directory Structure
@@ -34,7 +34,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
 ```
 It is important to note that all services will be exposing port 8080, and addressed using their host name defined in docker-compose.
-Also, for configuring MongoDB client in the Spring Boot services, just address it with the host name, "DB" in this context.
+Also, for configuring MongoDB client in the Spring Boot services, just address it with the *host name, "DB"* in this context.
 ```
 spring:
   data:
@@ -43,7 +43,7 @@ spring:
 ```
 
 #### NGINX
-Nginx is a bit tricky to configure and containerize. In the demo application Nginx has two roles; one to serve the Angular application and the other to proxy the API calls to the corresponding backend services, so that the Angular application doesn't have to worry about locating the services by their URL. All calls from the Angular app goes to /api/<service name> and Nginx proxies the call to the right upstream.
+Nginx is a bit tricky to configure and containerize. In the demo application Nginx has two roles; one to __serve the Angular application__ and the other to __proxy the API calls__ to the corresponding backend services, so that the Angular application doesn't have to worry about locating the services by their URL. All calls from the Angular app goes to */api/<service name>* and Nginx proxies the call to the right upstream.
 The dockerization of Nginx copies the configuration from the local repository and copies the built Angular application and starts the server.
 ```
 FROM nginx
@@ -53,7 +53,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-Nginx configuration in simple words are stating that the server is running on port 80, and states the root folder for the Angular app, then configures each service as an upstream that will be used in the proxy configuration based on the URL.
+Nginx configuration in simple words are stating that the server is running on *port 80*, and states the *root folder for the Angular app*, then configures *each service as an upstream* that will be used in the proxy configuration based on the URL.
 ```
 http {
   resolver  127.0.0.11;   # Docker DNS Internal resolver
@@ -88,8 +88,8 @@ events {
 In a later article I will use the same configuration and assign a new role to Nginx to do load balancing for a swarm of services.
 
 #### Docker Compose
-The docker compose mainly glues all parts together in a private network and only expose the Nginx HTTP port 80 to the outside world.
-Note that all services attached to the same network, otherwise the system will fail to communicate internally.
+The docker compose mainly **glues all parts** together in a private network and only expose the Nginx HTTP port 80 to the outside world.
+Note that __all services attached to the same network__, otherwise the system will fail to communicate internally.
 ```
 version: '3'
 services:
