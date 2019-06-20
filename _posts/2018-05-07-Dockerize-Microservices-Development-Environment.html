@@ -1,0 +1,189 @@
+---
+layout: post
+title: Dockerize your Microservices Development Environment
+categories: Docker, Microservices, Spring Boot, NGINX
+---
+<article>
+  <p class="post-intro">
+    I have worked on several microservices-based applications on the cloud, and had to go through relatively slow CI process to get to see the changes and test them. Also, writing things from scratch is kind of my hobby. So, I thought I will create a small demo setup and will keep adding to it as a pet project.
+  </p>
+  
+  <h2>Demo Application Components</h2>
+  <p>
+  The application is composed of <em>two Spring Boot services</em> providing the notifications and messages stored in a <em>MongoDB database</em> with frontend developed in <em>Angular 5</em> and making use of <em>NGINX</em> to proxy calls to the corresponding service.
+  <figure>
+    <img class="white" src="/assets/docker-microservices-diagram.svg" alt="Docker Microservices Diagram" />
+    
+    <figcaption>Demo Structure</figcaption>
+  </figure>
+
+  <h2>Directory Structure</h2>
+  <p>
+    <figure>
+      <img src="/assets/docker-microservices-dev-env-directory-structure.png" alt="Directory Strcuture" />
+      <figcaption>Directory Structure</figcaption>
+    </figure>
+  </p>
+  
+  <h3>Docker Files and Configurations</h3>
+  <p>
+    I will go through the configuration of each component of the demo application, highlighting the less obvious parts.
+
+    <h4>MongoDB</h4>
+    <p>
+      MongoDB container is pretty straightforward, just using the mongo image and exposing the right port.
+      <pre>
+        <code class="language-docker">
+          FROM mongo
+          EXPOSE 27017
+        </code>
+      </pre>
+    </p>
+    
+    <h3>Spring Boot Services</h3>
+    <p>
+      The Spring Boot services are simple to containerize, just pull OpenJDK 8 and run Java runtime against the jar file of the service.
+      <pre>
+        <code class="language-docker">
+          FROM openjdk:8-jdk-alpine
+          VOLUME /tmp
+          ARG JAR_FILE=<Spring-Boot Service Jar File>.jar
+          COPY ./target/${JAR_FILE} app.jar
+          EXPOSE 8080
+          ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+        </code>
+      </pre>
+      It is important to note that all services will be exposing port 8080, and addressed using their host name defined in docker-compose.
+      Also, for configuring MongoDB client in the Spring Boot services, just address it with the *host name, "DB"* in this context.
+      <pre>
+        <code class="language-yaml">
+          spring:
+            data:
+              mongodb:
+                uri: mongodb://db:27017/&lt;DB Name&gt;
+        </code>
+      </pre>
+    </p>
+    <h4>NGINX</h4>
+    <p>
+      Nginx is a bit tricky to configure and containerize. In the demo application Nginx has two roles; one to <em>serve the Angular application</em> and the other to <em>proxy the API calls</em> to the corresponding backend services, so that the Angular application doesn't have to worry about locating the services by their URL. All calls from the Angular app goes to */api/&lt;service name&gt;* and Nginx proxies the call to the right upstream.
+      The dockerization of Nginx copies the configuration from the local repository and copies the built Angular application and starts the server.
+      <pre>
+        <code class="language-docker">
+          FROM nginx
+          COPY ./nginx.conf /etc/nginx/nginx.conf
+          COPY ./frontend/frontend-app/dist /usr/share/nginx/html
+          EXPOSE 80
+          CMD ["nginx", "-g", "daemon off;"]
+        </code>
+      </pre>
+      
+      Nginx configuration in simple words are stating that the server is running on <strong>port 80</strong>, and states the <strong>root folder for the Angular app</strong>, then configures <strong>each service as an upstream</strong> that will be used in the proxy configuration based on the URL.
+      <pre>
+        <code class="language-nginx">
+          http {
+            resolver  127.0.0.11;   # Docker DNS Internal resolver
+            server {
+              listen    80;
+
+              location / {
+                root    /usr/share/nginx/html;
+                index   index.html;
+              }
+              location /api/messages {
+                proxy_pass http://api-messaging/api/messages;
+              }
+              location /api/notifications {
+                proxy_pass http://api-notifications/api/notifications;
+              }
+            }
+
+            upstream api-messaging {
+              server messaging-service:8080;
+            }
+
+            upstream api-notifications {
+              server notifications-service:8080;
+            }
+          }
+
+          events {
+            worker_connections 1024;
+          }
+        </code>
+      </pre>
+    
+      In a later article I will use the same configuration and assign a new role to Nginx to do load balancing for a swarm of services.
+    </p>
+  
+    <h4>Docker Compose</h4>
+    <p>
+      The docker compose mainly <strong><em>glues all parts</em></strong> together in a private network and only expose the Nginx HTTP port 80 to the outside world.
+          Note that <em>all services attached to the same network</em>, otherwise the system will fail to communicate internally.
+      <pre>
+        <code class="language-yaml">
+          version: '3'
+          services:
+            db:
+              build:
+                context: .
+                dockerfile: mongo.dockerfile
+              expose:
+                - "27017"
+              networks:
+                - app-network
+            messaging-service:
+              restart: always
+              container_name: messaging-service
+              build:
+                context: ./backend/messaging-service
+                dockerfile: Dockerfile
+              expose:
+                - "8080"
+              depends_on:
+                - db
+              networks:
+                - app-network
+            notifications-service:
+              restart: always
+              container_name: notifications-service
+              build:
+                context: ./backend/notifications-service
+                dockerfile: Dockerfile
+              expose:
+                - "8080"
+              depends_on:
+                - db
+              networks:
+                - app-network
+            nginx:
+              restart: always
+              build:
+                context: .
+                dockerfile: nginx.dockerfile
+              expose:
+                - "80"
+              ports:
+                - "80:80"
+              depends_on:
+                - messaging-service
+                - notifications-service
+              networks:
+                - app-network
+          networks:
+            app-network:
+              driver: bridge
+        </code>
+      </pre>
+    </p>
+  </p>
+  <h3>Conclusion</h3>
+  <p>
+    Docker and containerization allows developers to simulate the production environment with multiple distributed components communicating to the provide the needed functionality without having too many server applications or many databases for the different projects or different application setups cluttering the main developer machine. Personally I have been using Docker and Vagrant to have sandboxed environments as much as I can since they started to see the light.
+    If you would like to take a look at the full demo application code, you can check it out on GitHub
+    <a href="https://github.com/ahmedabadawi/playground-docker-spring-angular">Demo Application</a>, however, this is the main playground code base, it can vary from the details in this article, to download the tag with just the details in this article, follow one of these links <a href="https://github.com/ahmedabadawi/playground-docker-spring-angular/archive/v1.0.zip">.zip</a> <a href="https://github.com/ahmedabadawi/playground-docker-spring-angular/archive/v1.0.tar.gz">.tar.gz</a>.
+    Finally, I hope this article was helpful to you and I would love your feedback and comments on it.
+
+    Happy Coding...
+  </p>
+</article>

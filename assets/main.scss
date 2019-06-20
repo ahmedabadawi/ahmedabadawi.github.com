@@ -1,0 +1,137 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+//@import url('https://fonts.googleapis.com/css?family=Open+Sans|VT323&display=swap');
+
+// Fonts
+//$base-font-family: -apple-system, "VT323", BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+// Colors
+$black-color: #232729;
+$white-color: #838484;
+$gray-color: #828282;
+$gray-color-light: lighten($gray-color, 40%) !default;
+$gray-color-dark: darken($gray-color, 25%) !default;
+$green-color: #335822;
+$cyan-color: #2b9c9c;
+$orange-color: #633d20;
+
+// Layout Overrides
+body {
+  background-color: $black-color;
+}
+
+.site-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px $white-color;
+  
+  h1 {
+    margin-bottom: 0.2em;
+    font-size: $base-font-size * 3;
+    font-weight: normal;
+    line-height: 1;
+    color: $orange-color;
+  }
+  
+  h2 {
+    margin-bottom: 0;
+    font-size: $base-font-size * 1.5;
+    font-weight: normal;
+    line-height: 1.3;
+    color: $green-color;
+  }
+}
+
+.site-nav {
+  .page-link {
+    color: $green-color;
+  }
+}
+
+.post-list-heading {
+  color: $orange-color;
+}
+
+.rss-subscribe {
+  color: $gray-color;
+  
+  a {
+    color: $gray-color-light;
+  }
+  
+  a:visited {
+    color: $gray-color;
+  }
+}
+
+.post {
+  .post-title {
+    color: $white-color;
+  }
+  
+  .post-intro {
+    font-style: italic;
+  }
+  
+  article {
+    color: $white-color;
+    font-size: 18px;
+  }
+}
+
+.post-content {
+  color: $white-color;
+}
+
+.site-footer {
+  background-color: $black-color;
+  color: $gray-color-light;
+  padding: 10px 10px;
+  
+  .social-media-list {
+    a {
+      margin: 5px 5px;
+    }
+  }
+}
+
+a.post-link {
+  color: $green-color;
+}
+
+a:visited.post-link {
+  color: $green-color;
+}
+
+a:hover.post-link {
+  color: $orange-color;
+}
+
+a {
+  color: $white-color;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: $orange-color;
+}
+
+// Utilities
+.inverted-color {
+  filter: invert(100%);
+}
+
+.white {
+  background-color: #fff;
+}
+
+.white-dark {
+  background-color: $white-color;
+}
+
+
+

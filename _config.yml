@@ -4,8 +4,12 @@
 
 # Name of your site
 name: Ahmed Badawi
-title: Ahmed Badawi
+author: Ahmed Badawi
+title: Thoughts and Notes in Software Development
+email: ahmedabadawi@gmail.com
 github_username: ahmedabadawi
+linkedin_username: ahmedabadawi
+flickr_username: ahmedabadawi
 
 # Short bio or description
 description: Thoughts and Notes in Software Development
