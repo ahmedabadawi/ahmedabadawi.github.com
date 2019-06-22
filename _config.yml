@@ -5,7 +5,7 @@
 # Name of your site
 name: Ahmed Badawi
 author: Ahmed Badawi
-title: Thoughts and Notes in Software Development
+title: ChainReaction
 email: ahmedabadawi@gmail.com
 github_username: ahmedabadawi
 linkedin_username: ahmedabadawi
@@ -41,7 +41,7 @@ exclude:
   - CNAME
 
 markdown: kramdown
-theme: minima
+theme: jekyll-theme-hacker
 
 #
 # Flags below are optional

@@ -1,0 +1,112 @@
+---
+---
+
+@import 'jekyll-theme-hacker';
+
+$base-font-size: 16px !default;
+$spacing-unit: 30px !default;
+$desktop-width: 800px;
+$mobile-width: 600px;
+
+@mixin relative-font-size($ratio) {
+  font-size: $base-font-size * $ratio;
+}
+
+%clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.svg-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  fill: currentColor;
+  padding: 5px 3px 2px 5px;
+  vertical-align: text-bottom;
+}
+
+.social-media-list {
+  display: table;
+  margin: 0 auto;
+  li {
+    float: left;
+    margin: 0 5px;
+    &:first-of-type { margin-left: 0 }
+    &:last-of-type { margin-right: 0 }
+    a {
+      display: block;
+      padding: $spacing-unit / 4;
+      border: 1px solid #666;
+    }
+    &:hover .svg-icon { fill: currentColor; }
+  }
+}
+
+// Footer
+.site-footer {
+  margin-top: $spacing-unit * 4;
+  border-top: 1px dashed $conifer;
+  padding: $spacing-unit 0;
+}
+
+.footer-heading {
+  @include relative-font-size(1.125);
+  margin-bottom: $spacing-unit / 2;
+}
+
+.contact-list, 
+.social-media-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.footer-col-wrapper {
+  @include relative-font-size(0.9375);
+  // color:   // TODO: choose a color
+  margin-left: -$spacing-unit / 2;
+  @extend clearfix !optional; 
+}
+
+.footer-col {
+  width: -webkit-calc(100% - (#($spacing-unit) / 2));
+  width:         calc(100% - (#($spacing-unit) / 2));
+  margin-bottom: $spacing-unit / 2;
+  padding-left: $spacing-unit / 2;
+}
+
+.footer-col-1,
+.footer-col-2 {
+  width: -webkit-calc(50% - (#($spacing-unit) / 2));
+  width:         calc(50% - (#($spacing-unit) / 2)); 
+}
+
+.footer-col-3 {
+  width: -webkit-calc(100% - (#($spacing-unit) / 2));
+  width:         calc(100% - (#($spacing-unit) / 2));
+}
+
+@media screen and (min-width: $desktop-width) {
+  .footer-col-1 {
+    width: -webkit-calc(35% - (#($spacing-unit) / 2));
+    width:         calc(35% - (#($spacing-unit) / 2)); 
+  }
+    
+  .footer-col-2 {
+    width: -webkit-calc(20% - (#($spacing-unit) / 2));
+    width:         calc(20% - (#($spacing-unit) / 2)); 
+  }
+
+  .footer-col-3 {
+    width: -webkit-calc(35% - (#($spacing-unit) / 2));
+    width:         calc(35% - (#($spacing-unit) / 2));
+  }
+}
+
+@media screen and (min-width: $mobile-width) {
+  .footer-col {
+    float: left;
+  }
+}
+
